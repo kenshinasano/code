@@ -1,0 +1,55 @@
+import csv
+
+# CSVファイルのパス
+csv_file_path = f"/content/drive/MyDrive/asano_1.csv"
+
+# 空のリストを用意
+no1_data = []
+no2_data = []
+no3_data = []
+kokkyu_data = []
+
+# CSVファイルを読み込み
+with open(csv_file_path, mode='r', encoding='utf-8') as file:
+    csv_reader = csv.DictReader(file)
+    for row in csv_reader:
+        no1_data.append(float(row['no.1']))
+        no2_data.append(float(row['no.2']))
+        no3_data.append(float(row['no.3']))
+        kokkyu_data.append(float(row['kokkyu']))
+
+# 結果を表示（確認用）
+print("no.1 列のデータ:", len(no1_data), no1_data)
+print("no.2 列のデータ:", len(no2_data), no2_data)
+print("no.3 列のデータ:", len(no3_data), no3_data)
+print("kokkyu 列のデータ:", len(kokkyu_data), kokkyu_data)
+
+no1_data_0628 = no1_data[96:96+37]; print(len(no1_data_0628), no1_data_0628)  # 試作品no.1の6月28日昼のデータ
+no1_data_0629 = no1_data[240:277]; print(len(no1_data_0629), no1_data_0629)
+no1_data_0630 = no1_data[384:421]; print(len(no1_data_0630), no1_data_0630)
+no1_data_0701 = no1_data[528:565]; print(len(no1_data_0701), no1_data_0701)
+no1_data_0702 = no1_data[672:703]; print(len(no1_data_0702), no1_data_0702)
+
+no1_data_day = no1_data_0628 + no1_data_0629 + no1_data_0630 + no1_data_0701 + no1_data_0702 # 試作品no.1の昼のデータを全て格納したリスト 
+
+# kokkyuの昼のデータだけを用意する
+kokkyu_data_0628 = kokkyu_data[96:96+37]; print(len(kokkyu_data_0628), kokkyu_data_0628)
+kokkyu_data_0629 = kokkyu_data[240:277]; print(len(kokkyu_data_0629), kokkyu_data_0629)
+kokkyu_data_0630 = kokkyu_data[384:421]; print(len(kokkyu_data_0630), kokkyu_data_0630)
+kokkyu_data_0701 = kokkyu_data[528:565]; print(len(kokkyu_data_0701), kokkyu_data_0701)
+kokkyu_data_0702 = kokkyu_data[672:703]; print(len(kokkyu_data_0702), kokkyu_data_0702)
+
+kokkyu_data_day = kokkyu_data_0628 + kokkyu_data_0629 + kokkyu_data_0630 + kokkyu_data_0701 + kokkyu_data_0702
+
+x = range(1, len(no1_data_0628) + 1)
+
+# 折れ線グラフの描画
+plt.figure(figsize=(10, 6))  # グラフのサイズを設定
+plt.plot(x, no1_data_0628, marker='o', linestyle='-', color='b', label='black pinpon')
+plt.plot(x, kokkyu_data_0628, marker='s', linestyle='--', color='k', label='kokkyu')
+plt.xlabel('Time')  # x軸のラベル
+plt.ylabel('Values')  # y軸のラベル
+plt.title('Comparison of pinpon and kokkyu over Time (6/28)')  # グラフのタイトル
+plt.legend()  # 凡例を表示
+plt.tight_layout()  # レイアウトの調整（必要に応じて）
+plt.show()  # グラフを表示
